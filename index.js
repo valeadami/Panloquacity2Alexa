@@ -67,7 +67,6 @@ alexaRouter.post('/callAVA', function (req, res) {
              req.body.request.intent.name === 'AnyText') {     
        // BuildGetCookingInstruction(req, res); 
             callAva(req, res);
-
          
         
     } else if (req.body.request.type === 'IntentRequest'  && req.body.request.intent.name === 'AMAZON.HelpIntent') { 
