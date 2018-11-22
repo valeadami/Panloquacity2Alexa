@@ -87,7 +87,7 @@ alexaRouter.post('/callAVA', function (req, res) {
 Passo a PLQ queste strunghe per gestire:
 - intent di "welcome": passo "zzzstart" all'avvio della conversazione ossia al LaunchRequest->invocazione di Alexa
 - intent di StopIntent: passo "zzzstop" quando utente dice "basta"
-- intent di Cancel: passo "zzzannulla" quando utente dice "annulla"
+- intent di Cancel: passo "zzzcancel" quando utente dice "annulla"
 - intent di Help: passo "zzzhelp" quando utente dice "aiuto"
 - intent di Fallback: passo "zzzNoResponse" 
 - intent di SessionEnded: passo "zzzEndSession"
@@ -116,11 +116,14 @@ function callAva(req, resp){
       strRicerca='zzzstop';
       boolEndSession=true;
     } else if (req.body.request.type === 'IntentRequest'  && req.body.request.intent.name === 'AMAZON.CancelIntent') { 
-      strRicerca='zzzannulla';
+      strRicerca='zzzcancel';
     } else if (req.body.request.type === 'SessionEndedRequest') {
       strRicerca='zzzEndSession';
     } else if (req.body.request.intent.name === 'AMAZON.FallbackIntent') {  
       strRicerca='zzzNoResponse';
+    } else if  (req.body.request.intent.name === 'AMAZON.NavigateHomeIntent') {
+      strRicerca='zzznavigatehome';
+      //zzznavigatehome,
     }
   //prendo il parametro....slot 
     //var str=request.intent.slots.searchText.value;
