@@ -54,23 +54,21 @@ alexaRouter.post('/callAVA', function (req, res) {
     let request = req.body.request;
     console.log(JSON.stringify(request));
   
-   /* var zz=request.intent.slots.searchText.value;
-    console.log('*******valore di zz '+ zz);*/
+   
    
     if (req.body.request.type === 'LaunchRequest') {
-      /*if (zz==="undefined") {
-        zz="zzzstart";
-      }*/
+      /*
         res.json({
             "version": "1.0",
             "response": {
               "shouldEndSession": false,
               "outputSpeech": {
                 "type": "PlainText",
-                "text": "Benvenuto in Panloquacity: " //+ zz
+                "text": "Benvenuto in Panloquacity"
               }
             }
-          });    
+          });    */
+          callAvaLaunchRequest(req,res);
     }
     else if (req.body.request.type === 'IntentRequest' &&
              req.body.request.intent.name === 'AnyText') {     
@@ -220,6 +218,93 @@ function callAva(req, resp){
         req1.write(postData);
         req1.end();
         
+};
+
+function callAvaLaunchRequest(req, resp){
+  let request = req.body.request;
+  let strRicerca='zzzstart';
+  let out='';
+  let data='';
+  let strOutput='';
+  let sessionId = req.body.session.sessionId;
+  //bot=req.query.ava;
+  console.log('sessionID di Alexa= ' + sessionId);
+  //prendo il parametro....slot 
+  //var str=request.intent.slots.searchText.value;
+      if(strRicerca) {
+          strRicerca = querystring.escape(str);;
+         
+          options.path+=strRicerca+'&user=&pwd=&ava='+bot;
+          console.log('stringa ricerca  = '+ strRicerca + " bot interrogato "+bot);
+      }
+      var ss=leggiSessione(__dirname +'/sessions/', sessionId);
+      if (ss===''){
+          options.headers.Cookie='JSESSIONID=';
+          console.log('DENTRO CALL AVA: SESSIONE VUOTA');
+      }else {
+           options.headers.Cookie='JSESSIONID='+ss;
+           console.log('DENTRO CALL AVA:  HO LA SESSIONE + JSESSIONID');
+      }
+      
+      var req1 = http.request(options, (res) => {
+           
+          console.log('________valore di options.cookie INIZIO ' + options.headers.Cookie);
+          console.log(`STATUS DELLA RISPOSTA: ${res.statusCode}`);
+          console.log(`HEADERS DELLA RISPOSTA: ${JSON.stringify(res.headers)}`);
+          console.log('..............RES HEADER ' + res.headers["set-cookie"] );
+         
+          if (res.headers["set-cookie"]){
+      
+            var x = res.headers["set-cookie"].toString();
+            var arr=x.split(';')
+            var y=arr[0].split('=');
+            
+           console.log('id di sessione di ava =' + y[1]);
+           
+           scriviSessione(__dirname+'/sessions/',sessionId, y[1]); 
+          } 
+          res.setEncoding('utf8');
+          res.on('data', (chunk) => {
+           console.log(`BODY: ${chunk}`);
+           data += chunk;
+         
+           let c=JSON.parse(data);
+                  strOutput=c.output[0].output; 
+                 
+                  strOutput=strOutput.replace(/(<\/p>|<p>|<b>|<\/b>|<br>|<\/br>|<strong>|<\/strong>|<div>|<\/div>|<ul>|<li>|<\/ul>|<\/li>|&nbsp;|)/gi, '');
+                  resp.json({
+                      "version": "1.0",
+                      "response": {
+                          "shouldEndSession": false,
+                          "outputSpeech": {
+                          "type": "PlainText",
+                          "text": strOutput
+                          }
+                      }
+                  }); 
+                
+                
+          });
+          res.on('end', () => {
+            console.log('No more data in response.');
+            
+                 
+                  options.path='/AVA/rest/searchService/search_2?searchText=';
+                  
+                  console.log('valore di options.path FINE ' +  options.path);
+      
+          });
+        });
+        
+        req1.on('error', (e) => {
+          console.error(`problem with request: ${e.message}`);
+          strOutput="si è verificato errore " + e.message;
+         
+        });  
+        
+      req1.write(postData);
+      req1.end();
+      
 };
 /**** FUNZIONI A SUPPORTO */
 
