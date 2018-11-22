@@ -52,22 +52,22 @@ alexaRouter.post('/callAVA', function (req, res) {
     console.log('sono in callAVA ');
     bot=req.query.ava;
     let request = req.body.request;
-    
+    console.log(JSON.stringify(request));
   
-    var zz=request.intent.slots.searchText.value;
-    console.log('*******valore di zz '+ zz);
+   /* var zz=request.intent.slots.searchText.value;
+    console.log('*******valore di zz '+ zz);*/
    
     if (req.body.request.type === 'LaunchRequest') {
-      if (zz==="undefined") {
+      /*if (zz==="undefined") {
         zz="zzzstart";
-      }
+      }*/
         res.json({
             "version": "1.0",
             "response": {
               "shouldEndSession": false,
               "outputSpeech": {
                 "type": "PlainText",
-                "text": "Benvenuto in Panloquacity: " + zz
+                "text": "Benvenuto in Panloquacity: " //+ zz
               }
             }
           });    
