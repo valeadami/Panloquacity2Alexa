@@ -100,6 +100,7 @@ function callAva(req, resp){
   let strOutput='';
   let sessionId = req.body.session.sessionId;
   let request = req.body.request; //per slot
+  let boolEndSession=false;
   //bot=req.query.ava;
   console.log('sessionID di Alexa= ' + sessionId);
 
@@ -113,6 +114,7 @@ function callAva(req, resp){
       strRicerca='zzzhelp';
     } else if (req.body.request.type === 'IntentRequest'  && req.body.request.intent.name === 'AMAZON.StopIntent') { 
       strRicerca='zzzstop';
+      boolEndSession=true;
     } else if (req.body.request.type === 'IntentRequest'  && req.body.request.intent.name === 'AMAZON.CancelIntent') { 
       strRicerca='zzzannulla';
     } else if (req.body.request.type === 'SessionEndedRequest') {
@@ -166,7 +168,7 @@ function callAva(req, resp){
                   resp.json({
                       "version": "1.0",
                       "response": {
-                          "shouldEndSession": false,
+                          "shouldEndSession": boolEndSession, //false
                           "outputSpeech": {
                           "type": "PlainText",
                           "text": strOutput
