@@ -51,14 +51,23 @@ server.listen(port, function () {
 alexaRouter.post('/callAVA', function (req, res) {
     console.log('sono in callAVA ');
     bot=req.query.ava;
+    let request = req.body.request;
+    
+  
+    var zz=request.intent.slots.searchText.value;
+    console.log('*******valore di zz '+ zz);
+   
     if (req.body.request.type === 'LaunchRequest') {
+      if (zz==="undefined") {
+        zz="zzzstart";
+      }
         res.json({
             "version": "1.0",
             "response": {
               "shouldEndSession": false,
               "outputSpeech": {
                 "type": "PlainText",
-                "text": "Benvenuto in Panloquacity"
+                "text": "Benvenuto in Panloquacity: " + zz
               }
             }
           });    
@@ -71,52 +80,56 @@ alexaRouter.post('/callAVA', function (req, res) {
         
     } else if (req.body.request.type === 'IntentRequest'  && req.body.request.intent.name === 'AMAZON.HelpIntent') { 
         console.log('Hai chiesto aiuto');
-        res.json({
-            "version": "1.0",
-            "response": {
-              "shouldEndSession": false,
-              "outputSpeech": {
-                "type": "PlainText",
-                "text": "Puoi chiedermi quello che vuoi"
-              }
-            }
-          });  
+        callAva(req, res);
+      // res.json({
+      //   "version": "1.0",
+      //   "response": {
+      //     "shouldEndSession": false,
+      //     "outputSpeech": {
+      //       "type": "PlainText",
+      //       "text": "Puoi chiedermi quello che vuoi"
+      //     }
+      //   }
+      // });  
     } else if (req.body.request.type === 'IntentRequest'  && req.body.request.intent.name === 'AMAZON.StopIntent') { 
         console.log('Vuoi uscire');
-        res.json({
-            "version": "1.0",
-            "response": {
-              "shouldEndSession": true,
-              "outputSpeech": {
-                "type": "PlainText",
-                "text": "Ok, chiudo la sessione. Quando vuoi, dì Alexa apri provaslot"
-              }
-            }
-          });  
+        callAva(req, res);
+      // res.json({
+      //   "version": "1.0",
+      //   "response": {
+      //     "shouldEndSession": true,
+      //     "outputSpeech": {
+      //       "type": "PlainText",
+      //       "text": "Ok, chiudo la sessione. Quando vuoi, dì Alexa apri provaslot"
+      //     }
+      //   }
+      // });  
     } else if (req.body.request.type === 'IntentRequest'  && req.body.request.intent.name === 'AMAZON.CancelIntent') { 
         console.log('Vuoi annullare');
-        res.json({
-            "version": "1.0",
-            "response": {
-              "shouldEndSession": false,
-              "outputSpeech": {
-                "type": "PlainText",
-                "text": "Ok, annullo"
-              }
-            }
-          });  
+        callAva(req, res);
+        // res.json({
+        //     "version": "1.0",
+        //     "response": {
+        //       "shouldEndSession": false,
+        //       "outputSpeech": {
+        //         "type": "PlainText",
+        //         "text": "Ok, annullo"
+        //       }
+        //     }
+        //   });  
     } else if (req.body.request.type === 'SessionEndedRequest') { 
         console.log('Session ended', req.body.request.reason);
-        res.json({
-            "version": "1.0",
-            "response": {
-              "shouldEndSession": true,
-              "outputSpeech": {
-                "type": "PlainText",
-                "text": "Arrivederci"
-              }
-            }
-          }); 
+        callAva(req, res);
+        // res.json({
+        //     "version": "1.0",
+        //     "response": {
+        //       "shouldEndSession": true,
+        //       "outputSpeech": {
+        //         "type": "PlainText",
+        //         "text": "Arrivederci"
+        //       }
+        //     }
+        //   }); 
     } 
     
 });
@@ -131,7 +144,7 @@ function callAva(req, resp){
     let sessionId = req.body.session.sessionId;
     //bot=req.query.ava;
     console.log('sessionID di Alexa= ' + sessionId);
-    //prendo il parametro....slot
+    //prendo il parametro....slot 
     var str=request.intent.slots.searchText.value;
         if(str) {
             strRicerca = querystring.escape(str);;
