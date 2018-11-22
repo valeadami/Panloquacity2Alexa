@@ -51,8 +51,8 @@ server.listen(port, function () {
 alexaRouter.post('/callAVA', function (req, res) {
     console.log('sono in callAVA ');
     bot=req.query.ava;
-    let request = req.body.request;
-    console.log(JSON.stringify(request));
+   /* let request = req.body.request;
+    console.log(JSON.stringify(request));*/
   
    
    
@@ -221,7 +221,8 @@ function callAva(req, resp){
 };
 
 function callAvaLaunchRequest(req, resp){
-  let request = req.body.request;
+  console.log('sono in callAvaLaunchRequest');
+  //let request = req.body.request;
   let strRicerca='zzzstart';
   let out='';
   let data='';
@@ -232,7 +233,7 @@ function callAvaLaunchRequest(req, resp){
   //prendo il parametro....slot 
   //var str=request.intent.slots.searchText.value;
       if(strRicerca) {
-          strRicerca = querystring.escape(str);;
+         // strRicerca = querystring.escape(str);;
          
           options.path+=strRicerca+'&user=&pwd=&ava='+bot;
           console.log('stringa ricerca  = '+ strRicerca + " bot interrogato "+bot);
