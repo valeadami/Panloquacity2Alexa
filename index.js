@@ -98,7 +98,6 @@ function callAva(req, resp){
   console.log('**************** sono in FUNZIONE callAva modificato');
   
   let strRicerca='';
-  stRicerca=utf8.encode(strRicerca); //modifica del 02/12/2018 faccio encoding in utf8-> utf8.encode()
   let data='';
   let strOutput='';
   let sessionId = req.body.session.sessionId;
@@ -111,7 +110,8 @@ function callAva(req, resp){
       strRicerca='zzzstart';
   } else if (req.body.request.type === 'IntentRequest' &&
     req.body.request.intent.name === 'AnyText') {     
-      strRicerca=request.intent.slots.searchText.value; 
+      //modifica del 02/12/2018 faccio encoding in utf8-> utf8.encode()
+      strRicerca=utf8.encode(request.intent.slots.searchText.value); 
       strRicerca = querystring.escape(strRicerca); 
     } else if (req.body.request.type === 'IntentRequest'  && req.body.request.intent.name === 'AMAZON.HelpIntent') {
       strRicerca='zzzhelp';
