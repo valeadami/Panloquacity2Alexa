@@ -1,10 +1,12 @@
+//02/12/2018 BUG: caratteri accentati incorretti causa errata codifica
+//installato modulo utf8
 var express = require('express');
 var bodyParser = require('body-parser');
 var http = require('http');
 var querystring = require('querystring');
 var path = require("path");
-
 var fs = require("fs");
+var utf8=require('utf8'); //modifica del 02/12/2018
 
 var bot='';
 var app = express();
@@ -84,7 +86,7 @@ alexaRouter.post('/callAVA', function (req, res) {
 });
 
 /* modifica del 22/11/2018 
-Passo a PLQ queste strunghe per gestire:
+Passo a PLQ queste stringhe per gestire:
 - intent di "welcome": passo "zzzstart" all'avvio della conversazione ossia al LaunchRequest->invocazione di Alexa
 - intent di StopIntent: passo "zzzstop" quando utente dice "basta"
 - intent di Cancel: passo "zzzcancel" quando utente dice "annulla"
@@ -96,6 +98,7 @@ function callAva(req, resp){
   console.log('**************** sono in FUNZIONE callAva modificato');
   
   let strRicerca='';
+  stRicerca=utf8.encode(strRicerca); //modifica del 02/12/2018 faccio encoding in utf8-> utf8.encode()
   let data='';
   let strOutput='';
   let sessionId = req.body.session.sessionId;
