@@ -104,7 +104,7 @@ function callAva(req, resp){
   let request = req.body.request; //per slot
   let boolEndSession=false;
   //bot=req.query.ava;
-  console.log('***************headers della richiesta = '+ req.headers);
+  console.log('***************headers della richiesta = '+ JSON.stringify(req.headers));
   console.log('sessionID di Alexa= ' + sessionId);
 
   if (req.body.request.type === 'LaunchRequest') {
