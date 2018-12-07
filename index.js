@@ -1,23 +1,31 @@
 //02/12/2018 BUG: caratteri accentati incorretti causa errata codifica
 //installato modulo utf8
 var express = require('express');
+//07/12/2018 aggiunto questo modulo per certificazione alexa
+var verifier = require('alexa-verifier-middleware') 
 var bodyParser = require('body-parser');
 var http = require('http');
 var querystring = require('querystring');
 var path = require("path");
 var fs = require("fs");
 var utf8=require('utf8'); //modifica del 02/12/2018
+//modifica del 06/12/2018 per certificazione Alexa
+//var certificato=require('dcrypt');
 
 var bot='';
 var app = express();
 var alexaRouter = express.Router();
 //app.use("/alexa", alexaRouter);
 app.use("/", alexaRouter);
+//modifica del 07/12/2018
+alexaRouter.use(verifier);
+
 app.use(express.static(__dirname));
-//alexaRouter.use(verifier);
+//da mettere dopo
 alexaRouter.use(bodyParser.json());
 
 app.use("/ping", function (req, res, next) {
+
     res.send('Welcome to Panloquacity test');
 });
 /* configurazione della chiamata  */
