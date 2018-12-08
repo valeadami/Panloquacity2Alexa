@@ -4,7 +4,7 @@ var express = require('express');
 //07/12/2018 aggiunto questo modulo per certificazione alexa
 var verifier = require('alexa-verifier-middleware') 
 var bodyParser = require('body-parser');
-var http = require('https');
+var http = require('http');
 var querystring = require('querystring');
 var path = require("path");
 var fs = require("fs");
@@ -40,7 +40,7 @@ const options = {
     //modifica del 12/11/2018 : cambiato porta per supportare HTTPS
     
   hostname: '86.107.98.69', 
-  port: 8443,
+  port: 8080,
    /*port: 8443, 8080*/
    //rejectUnauthorized: false, // aggiunto qui 12/11/2018 
    path: '/AVA/rest/searchService/search_2?searchText=', 
