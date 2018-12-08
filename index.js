@@ -4,7 +4,7 @@ var express = require('express');
 //07/12/2018 aggiunto questo modulo per certificazione alexa
 var verifier = require('alexa-verifier-middleware') 
 var bodyParser = require('body-parser');
-//var http = require('http');
+var http = require('http');
 var querystring = require('querystring');
 var path = require("path");
 var fs = require("fs");
@@ -39,7 +39,7 @@ postData = querystring.stringify({
 const options = {
     //modifica del 12/11/2018 : cambiato porta per supportare HTTPS
     
-   hostname: '86.107.98.69', 
+  hostname: '86.107.98.69', 
   port: 8080,
    /*port: 8443, 8080*/
    //rejectUnauthorized: false, // aggiunto qui 12/11/2018 
@@ -114,12 +114,7 @@ function callAva(req, resp){
   //bot=req.query.ava;
   console.log('***************headers della richiesta = '+ JSON.stringify(req.headers));
   console.log('sessionID di Alexa= ' + sessionId);
-
-  console.log('options.port =' + options.port);
-  var porta=options.port.toString();
-  const http = porta.startsWith('8443') ? require('https') : require('http');
-    
-
+  
   if (req.body.request.type === 'LaunchRequest') {
       strRicerca='zzzstart';
   } else if (req.body.request.type === 'IntentRequest' &&
