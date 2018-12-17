@@ -1,3 +1,4 @@
+//17/12/298 MODIFICA: IN ANNULLA -> CANCEL INTENT metto ShouldEndSession a true ossia stoppo la conversazione 
 //02/12/2018 BUG: caratteri accentati incorretti causa errata codifica
 //installato modulo utf8
 var express = require('express');
@@ -129,6 +130,7 @@ function callAva(req, resp){
       boolEndSession=true;
     } else if (req.body.request.type === 'IntentRequest'  && req.body.request.intent.name === 'AMAZON.CancelIntent') { 
       strRicerca='zzzcancel';
+      boolEndSession=true; /*********** MODIFICA DEL 17/12/2018 */
     } else if (req.body.request.type === 'SessionEndedRequest') {
       strRicerca='zzzEndSession';
     } else if (req.body.request.intent.name === 'AMAZON.FallbackIntent') {  
