@@ -12,10 +12,8 @@ var path = require("path");
 var fs = require("fs");
 var utf8=require('utf8'); //modifica del 02/12/2018
 //modifica del 06/12/2018 per certificazione Alexa
-//var certificato=require('dcrypt');
-//apl **************
-//const AplTest= require('./apl_template.json');
-//************ modifica del 20/12/2018 */
+
+
 var bot='';
 var app = express();
 var alexaRouter = express.Router();
@@ -185,6 +183,27 @@ function callAva(req, resp){
                   strOutput=c.output[0].output; 
                  
                   strOutput=strOutput.replace(/(<\/p>|<p>|<b>|<\/b>|<br>|<\/br>|<strong>|<\/strong>|<div>|<\/div>|<ul>|<li>|<\/ul>|<\/li>|&nbsp;|)/gi, '');
+                  let comandi=[];
+                  let urlImg='';
+                  comandi=getComandi(c.output[0].commands);
+                if (typeof comandi!=='undefined' && comandi.length>=1) {
+                    console.log('ho almeno un comando, quindi prosegui con l\' azione ');
+                  
+                      if (comandi[0]=="STOP"){
+                          console.log('++++++++++++ stoppo la conversazione')
+                          boolEndSession=true;
+                      }
+                      if (typeof comandi[1] !== 'undefined' && comandi[0]=="STOP"){
+                          console.log('+++++++++ stoppo la conversazione e mando link immagine')
+                          boolEndSession=true;
+                          urlImg=comandi[1];
+                         
+                      }
+                  } else {
+                    
+                    console.log('non ci sono comandi, prosegui');
+                  }
+                  //COSTRUISCO JSON DI RISPOSTA CON SUPPORTO AD APL CON IMMAGINE
                   resp.json({           
                       "version": "1.0",
                       "response": {
@@ -192,8 +211,8 @@ function callAva(req, resp){
                           "outputSpeech": {
                           "type": "PlainText",
                           "text": strOutput
-                    
                           },
+                          //******* GESTIONE APL 20/12/2018 */
                           "directives": [
                             {
                                 "type": "Alexa.Presentation.APL.RenderDocument",
@@ -216,7 +235,7 @@ function callAva(req, resp){
                                                 "items": [
                                                     {
                                                         "type": "Image",
-                                                        "source": "https://upload.wikimedia.org/wikipedia/commons/a/ab/House_mouse.jpg"
+                                                        "source": urlImg //"https://upload.wikimedia.org/wikipedia/commons/a/ab/House_mouse.jpg"
                                                     }
                                                 ]
                                             }
@@ -288,3 +307,45 @@ function scriviSessione(path, strSessione, strValore) {
     return contents;
   
   } 
+
+   // 18/12/2018
+ function getComandi(arComandi)
+ {
+
+   var comandi=arComandi;
+   if (comandi.length>0){
+       //prosegui con il parsing
+       //caso 1: ho solo un comando, ad esempio lo stop->prosegui con il parsing
+       switch (comandi.length){
+         case 1:
+           comandi=arComandi;
+           break;
+
+         case 2:
+         //caso 2: ho due comandi, stop e img=path image, quindi devo scomporre comandi[1] 
+           var temp=arComandi[1].toString();
+           //temp=img=https.....
+           //splitto temp in un array con due elementi divisi da uguale
+           temp=temp.split("=");
+           console.log('valore di temp[1]= ' +temp[1]);
+           arComandi[1]=temp[1];
+           comandi=arComandi;
+
+           //scompongo arComandi[1]
+           break;
+
+         default:
+           //
+           console.log('sono in default');
+
+       }
+      return comandi; //ritorno array come mi serve STOP oppure STOP, PATH img
+     
+   } else {
+     console.log('non ci sono comandi')
+
+     //non ci sono comandi quindi non fare nulla
+     return undefined;
+   }
+  
+ } 
