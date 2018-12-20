@@ -14,7 +14,7 @@ var utf8=require('utf8'); //modifica del 02/12/2018
 //modifica del 06/12/2018 per certificazione Alexa
 //var certificato=require('dcrypt');
 //apl **************
-const AplTest= require('./apl_template.json');
+//const AplTest= require('./apl_template.json');
 //************ modifica del 20/12/2018 */
 var bot='';
 var app = express();
