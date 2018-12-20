@@ -185,28 +185,48 @@ function callAva(req, resp){
                   strOutput=c.output[0].output; 
                  
                   strOutput=strOutput.replace(/(<\/p>|<p>|<b>|<\/b>|<br>|<\/br>|<strong>|<\/strong>|<div>|<\/div>|<ul>|<li>|<\/ul>|<\/li>|&nbsp;|)/gi, '');
-                  resp.json({
-                    /* modifica del 20/12/2018 */
-                   
+                  resp.json({           
                       "version": "1.0",
                       "response": {
                           "shouldEndSession": boolEndSession, //false
                           "outputSpeech": {
                           "type": "PlainText",
                           "text": strOutput
-                          }
-                      },
-                      type : 'Alexa.Presentation.APL.RenderDocument',
-                      version: '1.0',
-                      document : AplTest,
-                      datasources : {
-                        /*"movieQuoteQuizData": {
-                          "type": "object",
-                          "properties": {
-                            "title": "testo di prova!"
-                          }
-                        }*/
-                      }
+                    
+                          },
+                          "directives": [
+                            {
+                                "type": "Alexa.Presentation.APL.RenderDocument",
+                               // "token": "[SkillDeveloperProvidedToken]",
+                                "document": {
+                                    "type": "APL",
+                                    "version": "1.0",
+                                    "theme": "auto",
+                                    "mainTemplate": {
+                                        "description": "APL Document",
+                                        "parameters": [
+                                            "payload"
+                                        ],
+                                        "items": [
+                                            {
+                                                "type": "Container",
+                                                "direction": "column",
+                                                "width": "100%",
+                                                "height": "100%",
+                                                "items": [
+                                                    {
+                                                        "type": "Image",
+                                                        "source": "https://upload.wikimedia.org/wikipedia/commons/a/ab/House_mouse.jpg"
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                } //qui datasources dopo ,
+                            }
+                        ]
+                    } //fine json
+                     
 
                   }); 
                 
