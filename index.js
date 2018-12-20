@@ -124,6 +124,7 @@ function callAva(req, resp){
       //modifica del 02/12/2018 faccio encoding in utf8-> utf8.encode()
       strRicerca=utf8.encode(request.intent.slots.searchText.value); 
       strRicerca = querystring.escape(strRicerca); 
+      console.log('arriva la stringa.... '+ strRicerca);
     } else if (req.body.request.type === 'IntentRequest'  && req.body.request.intent.name === 'AMAZON.HelpIntent') {
       strRicerca='zzzhelp';
     } else if (req.body.request.type === 'IntentRequest'  && req.body.request.intent.name === 'AMAZON.StopIntent') { 
@@ -186,6 +187,7 @@ function callAva(req, resp){
                   let comandi=[];
                   let urlImg='';
                   comandi=getComandi(c.output[0].commands);
+                  
                 if (typeof comandi!=='undefined' && comandi.length>=1) {
                     console.log('ho almeno un comando, quindi prosegui con l\' azione ');
                   
