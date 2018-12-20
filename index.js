@@ -122,15 +122,16 @@ function callAva(req, resp){
   } else if (req.body.request.type === 'IntentRequest' &&
     req.body.request.intent.name === 'AnyText') {     
       //modifica del 02/12/2018 faccio encoding in utf8-> utf8.encode()
-      if(request.intent.slots.searchText.value){
+      //20/12/2018 CHECK ERRORE COPITE E MULTI NON VENGONO RICONOSCIUTI!!
+      //if(request.intent.slots.searchText.value){
         strRicerca=utf8.encode(request.intent.slots.searchText.value); 
         strRicerca = querystring.escape(strRicerca); 
         console.log('arriva la stringa.... '+ strRicerca);
 
-      }else{
+      /*}else{
 
         console.log('******** parametro undefined***********');
-      }
+      }*/
        
     } else if (req.body.request.type === 'IntentRequest'  && req.body.request.intent.name === 'AMAZON.HelpIntent') {
       strRicerca='zzzhelp';
