@@ -1,3 +1,4 @@
+//20/12/2018 inizio analisi APL
 //17/12/298 MODIFICA: IN ANNULLA -> CANCEL INTENT metto ShouldEndSession a true ossia stoppo la conversazione 
 //02/12/2018 BUG: caratteri accentati incorretti causa errata codifica
 //installato modulo utf8
@@ -12,7 +13,9 @@ var fs = require("fs");
 var utf8=require('utf8'); //modifica del 02/12/2018
 //modifica del 06/12/2018 per certificazione Alexa
 //var certificato=require('dcrypt');
-
+//apl **************
+const AplTest= require('apl_template.json');
+//************ modifica del 20/12/2018 */
 var bot='';
 var app = express();
 var alexaRouter = express.Router();
@@ -183,6 +186,8 @@ function callAva(req, resp){
                  
                   strOutput=strOutput.replace(/(<\/p>|<p>|<b>|<\/b>|<br>|<\/br>|<strong>|<\/strong>|<div>|<\/div>|<ul>|<li>|<\/ul>|<\/li>|&nbsp;|)/gi, '');
                   resp.json({
+                    /* modifica del 20/12/2018 */
+                   
                       "version": "1.0",
                       "response": {
                           "shouldEndSession": boolEndSession, //false
@@ -190,7 +195,19 @@ function callAva(req, resp){
                           "type": "PlainText",
                           "text": strOutput
                           }
+                      },
+                      type : 'Alexa.Presentation.APL.RenderDocument',
+                      version: '1.0',
+                      document : AplTest,
+                      datasources : {
+                        /*"movieQuoteQuizData": {
+                          "type": "object",
+                          "properties": {
+                            "title": "testo di prova!"
+                          }
+                        }*/
                       }
+
                   }); 
                 
                 
