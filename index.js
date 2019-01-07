@@ -1,3 +1,4 @@
+//07/01/2019 modifica gestione comandi con immagine: se 1 comando, e immagine, non chiudere la conversazione 
 //20/12/2018 inizio analisi APL
 //17/12/298 MODIFICA: IN ANNULLA -> CANCEL INTENT metto ShouldEndSession a true ossia stoppo la conversazione 
 //02/12/2018 BUG: caratteri accentati incorretti causa errata codifica
@@ -202,6 +203,10 @@ function callAva(req, resp){
                       if (comandi[0]=="STOP"){
                           console.log('++++++++++++ stoppo la conversazione')
                           boolEndSession=true;
+                      } else{ // 07/01/2019
+                        console.log('++++++++++++ ho comando immagine')
+                        boolEndSession=false;
+                        urlImg=comandi[0];
                       }
                       if (typeof comandi[1] !== 'undefined' && comandi[0]=="STOP"){
                           console.log('+++++++++ stoppo la conversazione e mando link immagine')
@@ -319,21 +324,36 @@ function scriviSessione(path, strSessione, strValore) {
   } 
 
    // 18/12/2018
+   //modificato il 07/01/2019
  function getComandi(arComandi)
  {
 
    var comandi=arComandi;
+   var temp;
    if (comandi.length>0){
        //prosegui con il parsing
        //caso 1: ho solo un comando, ad esempio lo stop->prosegui con il parsing
        switch (comandi.length){
          case 1:
-           comandi=arComandi;
+         //07/01/2019: ora il comando può contenere immagine, quindi verifica se presente =
+           
+           //comandi=arComandi;
+           temp=comandi[0].toString();
+           //è una stringa? Se si contiene il carattere "="
+           var pos = temp.firstIndexOf("=");
+           if (pos >- 1) {
+
+            //ho una stringa, quindi splitto per "="
+            temp=temp.split("=");
+            console.log('valore di temp[1]= ' +temp[1]);
+            arComandi[0]=temp[1];
+            comandi=arComandi;
+           }
            break;
 
          case 2:
          //caso 2: ho due comandi, stop e img=path image, quindi devo scomporre comandi[1] 
-           var temp=arComandi[1].toString();
+            temp=arComandi[1].toString();
            //temp=img=https.....
            //splitto temp in un array con due elementi divisi da uguale
            temp=temp.split("=");
