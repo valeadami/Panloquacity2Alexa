@@ -340,7 +340,7 @@ function scriviSessione(path, strSessione, strValore) {
            //comandi=arComandi;
            temp=comandi[0].toString();
            //è una stringa? Se si contiene il carattere "="
-           var pos = temp.firstIndexOf("=");
+           var pos = temp.indexOf("=");
            if (pos >- 1) {
 
             //ho una stringa, quindi splitto per "="
