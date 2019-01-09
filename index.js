@@ -1,3 +1,4 @@
+//09/01/2019 rollback a versione senza APL ma con la gestione dei comandi
 //07/01/2019 modifica gestione comandi con immagine: se 1 comando, e immagine, non chiudere la conversazione 
 //20/12/2018 inizio analisi APL
 //17/12/298 MODIFICA: IN ANNULLA -> CANCEL INTENT metto ShouldEndSession a true ossia stoppo la conversazione 
@@ -226,12 +227,12 @@ function callAva(req, resp){
                           "outputSpeech": {
                           "type": "PlainText",
                           "text": strOutput
-                          },
+                          }//, commentato in data 09/01/2019 perchè si verifica errore in lancio della skill
                           //******* GESTIONE APL 20/12/2018 */
-                          "directives": [
+                         /* "directives": [
                             {
                                 "type": "Alexa.Presentation.APL.RenderDocument",
-                               // "token": "[SkillDeveloperProvidedToken]",
+                              
                                 "document": {
                                     "type": "APL",
                                     "version": "1.0",
@@ -259,7 +260,8 @@ function callAva(req, resp){
                                 } //qui datasources dopo ,
                             }
                         ]
-                    } //fine json
+                    */
+                      } //fine json
                      
 
                   }); 
@@ -322,7 +324,7 @@ function scriviSessione(path, strSessione, strValore) {
     return contents;
   
   } 
-
+   //07/01/2019:
    // 18/12/2018
    //modificato il 07/01/2019
  function getComandi(arComandi)
