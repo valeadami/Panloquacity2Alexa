@@ -118,9 +118,13 @@ function callAva(req, resp){
   let sessionId = req.body.session.sessionId;
   let request = req.body.request; //per slot
   let boolEndSession=false;
+  //per sapere se device gestisce APL
+  let blnApL=false;
   //bot=req.query.ava;
   console.log('***************headers della richiesta = '+ JSON.stringify(req.headers));
-  console.log('************** BODY della richiesta =' + JSON.stringify(req.body.context.System.device.supportedInterfaces['Alexa.Presentation.APL']));
+  console.log('************** BODY della richiesta =' + JSON.stringify(req.body.context.System.device.supportedInterfaces));
+  
+  blnApL=supportDisplay(req);
   console.log('sessionID di Alexa= ' + sessionId);
 
   if (req.body.request.type === 'LaunchRequest') {
@@ -385,3 +389,23 @@ function scriviSessione(path, strSessione, strValore) {
    }
   
  } 
+
+ //10/01/2019
+ //controllo se la skill supporta Apl e immagini, vedi come riferimento https://forums.developer.amazon.com/questions/196261/how-to-prevent-skill-with-apl-from-failing-on-devi.html?childToView=196262#answer-196262
+ function supportDisplay(req){
+
+  var blnSupportDisplay=false;
+
+  if (req.body.context.System!='undefined' && req.body.context.System.device !='undefined'
+      && req.body.context.System.device.supportedInterfaces !='undefined' && 
+      req.body.context.System.device.supportedInterfaces['Alexa.Presentation.APL'] !='undefined' &&
+      req.body.context.System.device.supportedInterfaces.Display  !='undefined' &&
+      req.body.context.System.context.Viewport  !='undefined')
+       {
+          blnSupportDisplay= true;
+          console.log('LA SKILL SUPPORTA APL')
+
+      } 
+    return blnSupportDisplay;
+
+ }
