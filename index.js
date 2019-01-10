@@ -122,7 +122,7 @@ function callAva(req, resp){
   let blnApL=false;
   //bot=req.query.ava;
   console.log('***************headers della richiesta = '+ JSON.stringify(req.headers));
-  console.log('************** BODY della richiesta =' + JSON.stringify(req.body.context.System.device.supportedInterfaces));
+  //console.log('************** BODY della richiesta =' + JSON.stringify(req.body.context.System.device.supportedInterfaces));
   
   blnApL=supportDisplay(req);
   console.log('sessionID di Alexa= ' + sessionId);
@@ -212,7 +212,7 @@ function callAva(req, resp){
                       if (comandi[0]=="STOP"){
                           console.log('++++++++++++ stoppo la conversazione')
                           boolEndSession=true;
-                      }/* else{ 
+                      }else{ 
                         console.log('++++++++++++ ho comando immagine')
                         boolEndSession=false;
                         urlImg=comandi[0];
@@ -222,22 +222,24 @@ function callAva(req, resp){
                           boolEndSession=true;
                           urlImg=comandi[1];
                          
-                      }*/
+                      }
                   } else {
                     
                     console.log('non ci sono comandi, prosegui');
                   }
                   //COSTRUISCO JSON DI RISPOSTA CON SUPPORTO AD APL CON IMMAGINE
-                  resp.json({           
+                  if (blnApL) {
+                    console.log('rispondo con DIRETTIVA APL');
+                    resp.json({           
                       "version": "1.0",
                       "response": {
                           "shouldEndSession": boolEndSession, //false
                           "outputSpeech": {
                           "type": "PlainText",
                           "text": strOutput
-                          } //, commentato in data 09/01/2019 perchè si verifica errore in lancio della skill
+                          },
                           //******* GESTIONE APL 20/12/2018 */
-                         /* "directives": [
+                         "directives": [
                             {
                                 "type": "Alexa.Presentation.APL.RenderDocument",
                               
@@ -268,12 +270,27 @@ function callAva(req, resp){
                                 } //qui datasources dopo ,
                             }
                         ]
-                    */
+                    
                       } //fine json
+                   
+
+                      }); 
+                  } else {
+                    //MANCA SUPPORTO PER DISPLAY
+                    console.log('rispondo SENZA APL');
+                    resp.json({           
+                        "version": "1.0",
+                        "response": {
+                            "shouldEndSession": boolEndSession, //false
+                            "outputSpeech": {
+                            "type": "PlainText",
+                            "text": strOutput
+                            } 
+                        } //fine json
                      
 
-                  }); 
-                
+                    }); 
+                }//fine check bnlAPL
                 
           });
           res.on('end', () => {
