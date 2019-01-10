@@ -1,4 +1,7 @@
-//09-10/01/2019 rollback a versione senza APL ma con la gestione dei comandi. ATTENZIONE: ABILITARE IN INTERFACES APL!!!!
+//09-10/01/2019 
+//ollback a versione senza APL ma con la gestione dei comandi. ATTENZIONE: ABILITARE IN INTERFACES APL. 
+//Inoltre, errore se Echo non supporta immagini
+/************************ */
 //07/01/2019 modifica gestione comandi con immagine: se 1 comando, e immagine, non chiudere la conversazione 
 //20/12/2018 inizio analisi APL
 //17/12/298 MODIFICA: IN ANNULLA -> CANCEL INTENT metto ShouldEndSession a true ossia stoppo la conversazione 
@@ -204,7 +207,7 @@ function callAva(req, resp){
                       if (comandi[0]=="STOP"){
                           console.log('++++++++++++ stoppo la conversazione')
                           boolEndSession=true;
-                      } else{ 
+                      }/* else{ 
                         console.log('++++++++++++ ho comando immagine')
                         boolEndSession=false;
                         urlImg=comandi[0];
@@ -214,7 +217,7 @@ function callAva(req, resp){
                           boolEndSession=true;
                           urlImg=comandi[1];
                          
-                      }
+                      }*/
                   } else {
                     
                     console.log('non ci sono comandi, prosegui');
@@ -227,9 +230,9 @@ function callAva(req, resp){
                           "outputSpeech": {
                           "type": "PlainText",
                           "text": strOutput
-                          }, // commentato in data 09/01/2019 perchè si verifica errore in lancio della skill
+                          } //, commentato in data 09/01/2019 perchè si verifica errore in lancio della skill
                           //******* GESTIONE APL 20/12/2018 */
-                          "directives": [
+                         /* "directives": [
                             {
                                 "type": "Alexa.Presentation.APL.RenderDocument",
                               
@@ -260,7 +263,7 @@ function callAva(req, resp){
                                 } //qui datasources dopo ,
                             }
                         ]
-                    
+                    */
                       } //fine json
                      
 
