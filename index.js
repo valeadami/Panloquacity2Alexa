@@ -204,7 +204,7 @@ function callAva(req, resp){
                       if (comandi[0]=="STOP"){
                           console.log('++++++++++++ stoppo la conversazione')
                           boolEndSession=true;
-                      } else{ // 07/01/2019
+                      } /*else{ 
                         console.log('++++++++++++ ho comando immagine')
                         boolEndSession=false;
                         urlImg=comandi[0];
@@ -214,7 +214,7 @@ function callAva(req, resp){
                           boolEndSession=true;
                           urlImg=comandi[1];
                          
-                      }
+                      }*/
                   } else {
                     
                     console.log('non ci sono comandi, prosegui');
