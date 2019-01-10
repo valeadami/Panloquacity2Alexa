@@ -400,7 +400,7 @@ function scriviSessione(path, strSessione, strValore) {
       && req.body.context.System.device.supportedInterfaces !='undefined' && 
       req.body.context.System.device.supportedInterfaces['Alexa.Presentation.APL'] !='undefined' &&
       req.body.context.System.device.supportedInterfaces.Display  !='undefined' &&
-      req.body.context.System.context.Viewport  !='undefined')
+      req.body.context.Viewport  !='undefined')
        {
           blnSupportDisplay= true;
           console.log('LA SKILL SUPPORTA APL')
