@@ -122,7 +122,7 @@ function callAva(req, resp){
   let blnApL=false;
   //bot=req.query.ava;
   console.log('***************headers della richiesta = '+ JSON.stringify(req.headers));
-  //console.log('************** BODY della richiesta =' + JSON.stringify(req.body.context.System.device.supportedInterfaces));
+  console.log('************** BODY della richiesta =' + JSON.stringify(req.body.context.System.device.supportedInterfaces));
   
   blnApL=supportDisplay(req);
   console.log('sessionID di Alexa= ' + sessionId);
@@ -396,11 +396,11 @@ function scriviSessione(path, strSessione, strValore) {
 
   var blnSupportDisplay=false;
 
-  if (req.body.context.System!='undefined' && req.body.context.System.device !='undefined'
-      && req.body.context.System.device.supportedInterfaces !='undefined' && 
-      (req.body.context.System.device.supportedInterfaces['Alexa.Presentation.APL'] !='undefined' ||
-      req.body.context.System.device.supportedInterfaces.Display  !='undefined') &&
-      req.body.context.Viewport  !='undefined')
+  if (req.body.context.System!=undefined && req.body.context.System.device !=undefined
+      && req.body.context.System.device.supportedInterfaces !=undefined && 
+      (req.body.context.System.device.supportedInterfaces['Alexa.Presentation.APL'] !=undefined ||
+      req.body.context.System.device.supportedInterfaces.Display  !=undefined) &&
+      req.body.context.Viewport  !=undefined)
        {
           blnSupportDisplay= true;
           console.log('LA SKILL SUPPORTA APL')
