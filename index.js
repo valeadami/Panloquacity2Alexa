@@ -1,6 +1,7 @@
+//10/01/2019: aggiunto codice per gestione device. Da verificare con Roby se gira
 //09-10/01/2019 
-//ollback a versione senza APL ma con la gestione dei comandi. ATTENZIONE: ABILITARE IN INTERFACES APL. 
-//Inoltre, errore se Echo non supporta immagini
+//rollback a versione senza APL ma con la gestione dei comandi. ATTENZIONE: ABILITARE IN INTERFACES APL. 
+//Inoltre, errore se Echo non supporta immagini: 
 /************************ */
 //07/01/2019 modifica gestione comandi con immagine: se 1 comando, e immagine, non chiudere la conversazione 
 //20/12/2018 inizio analisi APL
@@ -227,7 +228,7 @@ function callAva(req, resp){
                     
                     console.log('non ci sono comandi, prosegui');
                   }
-                  //COSTRUISCO JSON DI RISPOSTA CON SUPPORTO AD APL CON IMMAGINE
+                  //10/01/2019 COSTRUISCO JSON DI RISPOSTA CON SUPPORTO AD APL CON IMMAGINE
                   if (blnApL) {
                     console.log('rispondo con DIRETTIVA APL');
                     resp.json({           
@@ -276,7 +277,7 @@ function callAva(req, resp){
 
                       }); 
                   } else {
-                    //MANCA SUPPORTO PER DISPLAY
+                    //MANCA SUPPORTO PER DISPLAY 10/01/2019
                     console.log('rispondo SENZA APL');
                     resp.json({           
                         "version": "1.0",
